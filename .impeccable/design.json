@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T00:00:00Z",
+  "title": "Design System: Ayni Ahorro",
+  "extensions": {
+    "colorMeta": {
+      "navy": { "role": "primary", "displayName": "Azul de confianza", "tonalRamp": ["oklch(15% .07 278)", "oklch(26% .07 278)", "oklch(37% .07 278)", "oklch(49% .07 278)", "oklch(60% .07 278)", "oklch(71% .07 278)", "oklch(83% .07 278)", "oklch(95% .02 278)"] },
+      "green": { "role": "secondary", "displayName": "Verde de comunidad", "tonalRamp": ["oklch(15% .05 160)", "oklch(26% .06 160)", "oklch(37% .08 160)", "oklch(49% .10 160)", "oklch(60% .11 160)", "oklch(71% .12 160)", "oklch(83% .08 160)", "oklch(95% .02 160)"] },
+      "yellow": { "role": "tertiary", "displayName": "Amarillo de oportunidad", "tonalRamp": ["oklch(15% .03 85)", "oklch(26% .05 85)", "oklch(37% .07 85)", "oklch(49% .09 85)", "oklch(60% .12 85)", "oklch(71% .14 85)", "oklch(83% .15 85)", "oklch(95% .04 85)"] },
+      "background": { "role": "neutral", "displayName": "Blanco claro", "tonalRamp": ["oklch(15% 0 0)", "oklch(26% 0 0)", "oklch(37% 0 0)", "oklch(49% 0 0)", "oklch(60% 0 0)", "oklch(71% 0 0)", "oklch(83% 0 0)", "oklch(95% 0 0)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Titular amplio", "purpose": "Primera idea de la superficie; se adapta a móvil sin fuente distinta." },
+      "body": { "displayName": "Lectura clara", "purpose": "Explicaciones y contenido de lectura." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "Selección del turno en la ronda." },
+      { "name": "turn-state", "value": "240ms", "purpose": "Color, borde y escala de la posición seleccionada; desactivado con reduced motion." },
+      { "name": "button-state", "value": "180ms ease", "purpose": "Cambio de color de acciones." }
+    ],
+    "breakpoints": [
+      { "name": "compact-desktop", "value": "1100px" },
+      { "name": "mobile", "value": "700px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Acción principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción azul con texto blanco.",
+      "html": "<button class=\"ds-primary\">Quiero enterarme <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;gap:15px;min-height:50px;padding:12px 20px;background:var(--navy);color:var(--white);border:0;border-radius:var(--radius-control);font-family:var(--font);font-size:14px;font-weight:700;line-height:1.4;cursor:pointer;transition:background 180ms ease}.ds-primary:hover{background:var(--navy-hover)}.ds-primary:focus-visible{outline:3px solid var(--focus);outline-offset:5px}.ds-primary:disabled{background:var(--disabled);color:var(--navy);cursor:not-allowed}"
+    },
+    {
+      "name": "Acción sobre azul",
+      "kind": "button",
+      "refersTo": "button-yellow",
+      "description": "Contraste amarillo para el cierre.",
+      "html": "<button class=\"ds-yellow\">Sumarme a la lista</button>",
+      "css": ".ds-yellow{display:inline-flex;align-items:center;min-height:54px;padding:12px 24px;background:var(--yellow);color:var(--navy);border:0;border-radius:var(--radius-control);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:background 180ms ease}.ds-yellow:hover{background:var(--yellow-hover)}.ds-yellow:focus-visible{outline:3px solid var(--focus);outline-offset:5px}"
+    },
+    {
+      "name": "Correo",
+      "kind": "input",
+      "refersTo": "email-field",
+      "description": "Entrada de correo con borde claro, foco y cursor de marca.",
+      "html": "<label class=\"ds-label\" for=\"ds-email\">Tu correo electrónico</label><input class=\"ds-email\" id=\"ds-email\" type=\"email\" placeholder=\"tu@correo.com\"/>",
+      "css": ".ds-label{display:block;color:var(--navy);font-family:var(--font);font-size:14px;margin-bottom:8px}.ds-email{padding:16px 12px;background:var(--white);color:var(--navy);border:1px solid var(--line-strong);border-radius:12px;font-family:var(--font);font-size:16px;caret-color:var(--navy)}.ds-email::placeholder{color:var(--muted);opacity:1}.ds-email:hover{border-color:var(--navy)}.ds-email:focus-visible{outline:3px solid var(--focus);outline-offset:5px}"
+    },
+    {
+      "name": "Turno",
+      "kind": "custom",
+      "refersTo": "round-person",
+      "description": "Posición circular con selección explícita.",
+      "html": "<button class=\"ds-turn\" aria-pressed=\"false\"><span>2</span>Ana</button><button class=\"ds-turn ds-selected\" aria-pressed=\"true\"><span>1</span>Tú</button>",
+      "css": ".ds-turn{display:inline-flex;flex-direction:column;align-items:center;gap:5px;margin:8px;padding:0;background:transparent;color:var(--navy);border:0;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer}.ds-turn span{display:grid;place-items:center;width:54px;height:54px;border:1px solid var(--line-strong);border-radius:50%;background:var(--background);font-size:18px;font-variant-numeric:tabular-nums;transition:background 240ms var(--ease-out)}.ds-turn:hover span{background:var(--soft-green)}.ds-selected span{background:var(--yellow);border-color:var(--yellow)}.ds-turn:focus-visible{outline:3px solid var(--focus);outline-offset:5px}"
+    },
+    {
+      "name": "Navegación breve",
+      "kind": "nav",
+      "description": "Enlaces directos sin capas ni menú modal.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Ejemplo de navegación\"><a href=\"#como-funciona\">Cómo funciona</a><a href=\"#preguntas\">Tus dudas</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:36px;font-family:var(--font)}.ds-nav a{color:var(--navy);font-size:14px;font-weight:600;text-decoration:none;text-underline-offset:4px}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:3px solid var(--focus);outline-offset:5px}"
+    },
+    {
+      "name": "Pregunta nativa",
+      "kind": "custom",
+      "description": "Acordeón abierto y legible con semántica nativa.",
+      "html": "<details class=\"ds-question\"><summary>¿Ya puedo usar Ayni?</summary><p>Todavía no. Estamos desarrollando la plataforma.</p></details>",
+      "css": ".ds-question{font-family:var(--font);border-block:1px solid var(--line)}.ds-question summary{padding:22px 0;color:var(--navy);font-weight:600;font-size:16px;cursor:pointer}.ds-question summary:hover{color:var(--navy-hover)}.ds-question summary:focus-visible{outline:3px solid var(--focus);outline-offset:5px}.ds-question p{padding:0 32px 24px 0;color:var(--muted);font-size:14px;line-height:1.8}"
+    }
+  ],
+  "narrative": {
+    "northStar": "La ronda",
+    "overview": "Una identidad cercana y precisa, construida sobre la idea de participar en un esfuerzo compartido. La geometría circular expresa personas, turnos y continuidad; el espacio abierto evita ruido y transmite claridad.\n\nEl sistema utiliza la paleta y el logo aportados por el usuario. Una sola familia tipográfica relaciona el carácter redondeado del logo con titulares amplios y textos funcionales. La superficie clara responde a una lectura cotidiana en móvil y con luz ambiental.",
+    "keyCharacteristics": ["Geometría circular con significado.", "Tipografía amplia, lenguaje directo y contenido breve.", "Superficies planas, filas abiertas y pocas fronteras.", "Color funcional y estados explícitos."],
+    "rules": [
+      { "name": "The Color Has a Job Rule", "body": "El verde une, el amarillo selecciona y el azul organiza la lectura y las acciones.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "La jerarquía cambia escala y peso dentro de una sola familia.", "section": "typography" },
+      { "name": "The Flat Surface Rule", "body": "Las superficies comunican estructura y estado sin elevación decorativa.", "section": "elevation" }
+    ],
+    "dos": ["Do conservar el logo original y la paleta confirmada.", "Do mantener el contenido breve y editable.", "Do usar círculos cuando expliquen personas, secuencia o continuidad.", "Do mostrar los estados reales de cada acción."],
+    "donts": ["Don't presentar el ejemplo como una aplicación operativa.", "Don't convertir texto secundario en la única explicación de una acción.", "Don't introducir otra voz tipográfica o sombras decorativas.", "Don't inventar métricas, testimonios ni funciones disponibles."]
+  }
+}

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.impeccable/review/
+.impeccable/tmp/
+.impeccable/*.local.json
+.DS_Store

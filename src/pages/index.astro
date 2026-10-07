@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+import Round from '../components/Round.astro';
+import Arrow from '../components/Arrow.astro';
+import { landing } from '../content/landing';
+---
+
+<Layout title={landing.seo.title} description={landing.seo.description}>
+  <header class="site-header container">
+    <a class="brand" href="/" aria-label={`${landing.brand}, inicio`}>
+      <img src="/logo-ayni-ahorro.webp" alt={landing.brand} width="1304" height="562" fetchpriority="high" />
+    </a>
+    <nav aria-label="Navegación principal">
+      {landing.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a class="nav-cta" href="#lista-de-espera">Sumarme <Arrow /></a>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <section class="hero container" aria-labelledby="hero-title">
+      <h1 id="hero-title"><span>{landing.hero.firstLine}</span><span class="hero-second">{landing.hero.secondLine}<svg class="title-loop" viewBox="0 0 160 128" fill="none" aria-hidden="true"><path d="M24 88C4 55 22 13 68 14c47 1 79 40 65 78-12 33-56 29-76 7-18-20-6-43 14-42" stroke="currentColor" stroke-width="10" stroke-linecap="round" /><circle cx="74" cy="55" r="11" fill="#FBC339" /></svg></span></h1>
+      <div class="hero-lower">
+        <div class="hero-copy">
+          <p class="hero-description">{landing.hero.description}</p>
+          <WaitlistForm />
+          <p class="development-note"><span aria-hidden="true"></span>{landing.hero.status}</p>
+        </div>
+        <Round />
+      </div>
+    </section>
+
+    <section class="steps-section" id="como-funciona" aria-labelledby="steps-title">
+      <div class="container steps-layout">
+        <div class="section-heading">
+          <h2 id="steps-title">{landing.steps.title.split('\n').map((line) => <span>{line}</span>)}</h2>
+          <p>{landing.steps.intro}</p>
+          <svg class="steps-link" viewBox="0 0 144 60" fill="none" aria-hidden="true"><circle cx="30" cy="30" r="24" stroke="currentColor" stroke-width="2" /><circle cx="72" cy="30" r="24" stroke="currentColor" stroke-width="2" /><circle cx="114" cy="30" r="24" stroke="currentColor" stroke-width="2" /></svg>
+        </div>
+        <ol class="steps-list">
+          {landing.steps.items.map((step, index) => (
+            <li><span class="step-number" aria-hidden="true">{index + 1}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="faq-section container" id="preguntas" aria-labelledby="faq-title">
+      <h2 id="faq-title">{landing.faq.title.split('\n').map((line) => <span>{line}</span>)}</h2>
+      <div class="faq-list">
+        {landing.faq.items.map((item) => (
+          <details>
+            <summary>{item.question}<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="closing-section" aria-labelledby="closing-title">
+      <div class="container closing-layout">
+        <div><h2 id="closing-title">{landing.closing.title.split('\n').map((line) => <span>{line}</span>)}</h2><p>{landing.closing.description}</p></div>
+        <a class="button button-yellow" href="#lista-de-espera">{landing.closing.cta}<Arrow /></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <div><a class="footer-brand" href="/">{landing.brand}<span aria-hidden="true">.</span></a><p>{landing.footer.tagline}</p></div>
+    <div class="footer-meta"><p>{landing.footer.location}</p><a href="/privacidad">{landing.footer.privacy}</a></div>
+  </footer>
+</Layout>

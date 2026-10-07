@@ -1,0 +1,59 @@
+---
+import { landing } from '../content/landing';
+const copy = landing.round;
+---
+
+<div class="round-example" data-round data-prefix={copy.selectedPrefix} data-suffix={copy.selectedSuffix} data-self-suffix={copy.selectedSelfSuffix}>
+  <div class="round-diagram" role="group" aria-label={copy.label}>
+    <svg class="round-path" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+      <circle cx="200" cy="200" r="154" stroke="currentColor" stroke-width="1.5" />
+      <path d="m340 120 14 4-2-14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="m60 280-14-4 2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <div class="round-center" aria-hidden="true">
+      <svg class="community-symbol" viewBox="0 0 64 48" width="64" height="48" fill="none">
+        <circle cx="32" cy="12" r="7" fill="currentColor" />
+        <circle cx="13" cy="19" r="5" fill="currentColor" opacity=".5" />
+        <circle cx="51" cy="19" r="5" fill="currentColor" opacity=".5" />
+        <path d="M20 41v-5a12 12 0 0 1 24 0v5H20Z" fill="currentColor" />
+        <path d="M3 41v-5a10 10 0 0 1 12-10c-2 3-3 6-3 10v5H3ZM61 41v-5a10 10 0 0 0-12-10c2 3 3 6 3 10v5h9Z" fill="currentColor" opacity=".5" />
+      </svg>
+      <span>{copy.centerLabel}</span>
+      <strong>{copy.centerTitle}</strong>
+    </div>
+    {copy.people.map((name, index) => (
+      <button
+        class:list={['round-person', { 'is-active': index === 0 }]}
+        type="button"
+        style={`--position: ${index};`}
+        aria-pressed={index === 0 ? 'true' : 'false'}
+        aria-label={`Ver turno ${index + 1}: ${name}`}
+        data-index={index}
+        data-name={name}
+      >
+        <span class="person-number">{index + 1}</span>
+        <span class="person-name">{name}</span>
+      </button>
+    ))}
+  </div>
+  <p class="round-current" aria-live="polite" aria-atomic="true"><span class="round-dot" aria-hidden="true"></span><span data-round-current>{copy.selectedPrefix} 1 · Tú {copy.selectedSelfSuffix}</span></p>
+  <p class="round-note">{copy.note}</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-round]').forEach((round) => {
+    const buttons = round.querySelectorAll<HTMLButtonElement>('.round-person');
+    const current = round.querySelector<HTMLElement>('[data-round-current]')!;
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        buttons.forEach((other) => {
+          const active = other === button;
+          other.classList.toggle('is-active', active);
+          other.setAttribute('aria-pressed', String(active));
+        });
+        const suffix = index === 0 ? round.dataset.selfSuffix : round.dataset.suffix;
+        current.textContent = `${round.dataset.prefix} ${index + 1} · ${button.dataset.name} ${suffix}`;
+      });
+    });
+  });
+</script>

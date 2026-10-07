@@ -1,0 +1,24 @@
+:root {
+  --navy: #151B47;
+  --green: #4DB889;
+  --yellow: #FBC339;
+  --background: #FAFAFA;
+  --text: #181818;
+  --white: #FFFFFF;
+  --muted: #565C70;
+  --soft-green: #EDF5F0;
+  --green-ink: #375C4B;
+  --green-line: #BDCEC4;
+  --line: #DADCE3;
+  --line-strong: #B8BDC9;
+  --navy-hover: #2D366A;
+  --navy-light: #C6CAE0;
+  --yellow-hover: #FFD66E;
+  --disabled: #DFE2EB;
+  --error: #A32B28;
+  --error-bg: #FBEFED;
+  --focus: #287B58;
+  --font: 'Manrope Variable', sans-serif;
+  --radius-control: 8px;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}

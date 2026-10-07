@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { landing } from '../content/landing';
+---
+
+<Layout title={`Privacidad · ${landing.brand}`} description="Cómo se utiliza tu correo en la lista de espera de Ayni Ahorro.">
+  <header class="site-header container">
+    <a class="brand" href="/" aria-label={`${landing.brand}, inicio`}><img src="/logo-ayni-ahorro.webp" alt={landing.brand} width="1304" height="562" /></a>
+    <a href="/">Volver al inicio</a>
+  </header>
+  <main id="contenido" class="privacy-page container">
+    <h1>Tu correo, con claridad.</h1>
+    <p>La lista de espera de Ayni Ahorro está pensada para avisarte sobre el lanzamiento de la plataforma.</p>
+    <h2>Qué guardamos</h2>
+    <p>El correo que nos proporcionas y la fecha de inscripción. No necesitas enviar tu cédula de identidad, una selfie ni información bancaria para apuntarte.</p>
+    <h2>Para qué lo usamos</h2>
+    <p>Para enviarte información sobre el lanzamiento de Ayni Ahorro. Al pulsar «Quiero enterarme», aceptas este uso de tu correo. Apuntarte no crea una cuenta en la plataforma ni implica un compromiso de pago.</p>
+    <h2>Dónde se guarda</h2>
+    <p>Las inscripciones se almacenan en Supabase. El formulario público puede enviar una inscripción, pero no consultar la lista de correos.</p>
+    <h2>Si cambias de opinión</h2>
+    <p>Puedes responder al correo de lanzamiento para solicitar que eliminemos tu inscripción. No utilizamos el correo para fines distintos de los descritos aquí.</p>
+    <h2>Este sitio</h2>
+    <p>No utiliza cookies de analítica ni de publicidad. El formulario transmite tu correo a Supabase únicamente cuando lo envías.</p>
+    <a class="button button-primary" href="/#lista-de-espera">Volver a la landing</a>
+  </main>
+</Layout>

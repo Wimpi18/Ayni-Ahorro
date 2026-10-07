@@ -1,0 +1,113 @@
+---
+import { landing } from '../content/landing';
+import Arrow from './Arrow.astro';
+
+const url = import.meta.env.PUBLIC_SUPABASE_URL ?? '';
+const key = import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
+const configured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url)
+  && key.length > 20 && !key.includes('REEMPLAZAR');
+const copy = landing.waitlist;
+---
+
+<div class="waitlist" id="lista-de-espera">
+  <form
+    id="waitlist-form"
+    data-url={configured ? url.replace(/\/$/, '') : ''}
+    data-key={configured ? key : ''}
+    data-copy={JSON.stringify(copy)}
+    novalidate
+  >
+    <label class="sr-only" for="email">{copy.label}</label>
+    <div class="form-fields">
+      <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder={copy.placeholder} maxlength="254" required aria-describedby="form-note form-status" disabled={!configured} />
+      <button class="button button-primary" type="submit" disabled={!configured}>
+        <span data-button-label>{landing.cta}</span><Arrow />
+      </button>
+    </div>
+    <div class="honey-field" aria-hidden="true">
+      <label for="website">Deja este campo vacío</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <p class="form-note" id="form-note">{copy.note} <a href="/privacidad">{copy.privacyLabel}</a>.</p>
+    <p class="form-status" id="form-status" role="status" aria-live="polite" aria-atomic="true">{!configured ? copy.unavailable : ''}</p>
+    <noscript><p class="form-status">Activa JavaScript para apuntarte a la lista de espera.</p></noscript>
+  </form>
+  <div class="form-success" id="waitlist-success" tabindex="-1" hidden>
+    <span class="success-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </span>
+    <div><h3>{copy.successTitle}</h3><p>{copy.successMessage}</p></div>
+  </div>
+</div>
+
+<script>
+  import type { landing } from '../content/landing';
+
+  const form = document.querySelector<HTMLFormElement>('#waitlist-form');
+  if (form) {
+    const email = form.querySelector<HTMLInputElement>('#email')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const buttonLabel = form.querySelector<HTMLElement>('[data-button-label]')!;
+    const status = form.querySelector<HTMLElement>('#form-status')!;
+    const originalLabel = buttonLabel.textContent;
+    const copy = JSON.parse(form.dataset.copy!) as typeof landing.waitlist;
+    let submitting = false;
+
+    email.addEventListener('input', () => {
+      email.removeAttribute('aria-invalid');
+      status.textContent = '';
+      status.classList.remove('is-error');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (submitting || !form.dataset.url || !form.dataset.key) return;
+      if (!email.validity.valid || !email.value.trim()) {
+        status.textContent = copy.invalid;
+        status.classList.add('is-error');
+        email.setAttribute('aria-invalid', 'true');
+        email.focus();
+        return;
+      }
+      const honey = form.querySelector<HTMLInputElement>('#website');
+      if (honey?.value) return;
+
+      submitting = true;
+      button.disabled = true;
+      email.readOnly = true;
+      buttonLabel.textContent = copy.loading;
+      form.setAttribute('aria-busy', 'true');
+      status.textContent = '';
+      status.classList.remove('is-error');
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 12000);
+      try {
+        const response = await fetch(`${form.dataset.url}/rest/v1/rpc/join_waitlist`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: form.dataset.key,
+          },
+          body: JSON.stringify({ p_email: email.value.trim().toLowerCase() }),
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('server');
+        form.hidden = true;
+        const success = document.querySelector<HTMLElement>('#waitlist-success')!;
+        success.hidden = false;
+        success.focus();
+      } catch (error) {
+        status.textContent = error instanceof Error && error.message === 'server'
+          ? copy.error : copy.networkError;
+        status.classList.add('is-error');
+      } finally {
+        window.clearTimeout(timeout);
+        submitting = false;
+        button.disabled = false;
+        email.readOnly = false;
+        buttonLabel.textContent = originalLabel;
+        form.removeAttribute('aria-busy');
+      }
+    });
+  }
+</script>
